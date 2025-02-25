@@ -1,13 +1,18 @@
-use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+mod models;
+mod services;
+use actix_web::{get, web::Data, App, HttpResponse, HttpServer, Responder};
+use services::db::Database;
 
-#[get("/hello")]
+#[get("/")]
 async fn hello() -> impl Responder {
     HttpResponse::Ok().body("Hello world!")
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new( || App::new().service(hello))
+    let db = Database::init().await;
+    let db_data = Data::new(db);
+    HttpServer::new(move || App::new().app_data(db_data.clone()).service(hello))
     .bind(("localhost", 5001))?
     .run()
     .await

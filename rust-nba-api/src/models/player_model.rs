@@ -13,6 +13,7 @@ pub struct Player {
     pub active: bool,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PlayerRequest {
     pub first_name: String,
     pub last_name: String,

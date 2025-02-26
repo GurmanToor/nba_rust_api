@@ -9,6 +9,7 @@ pub struct Team {
     pub abbreviation: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct TeamRequest {
     pub name: String,
     pub city: String,
